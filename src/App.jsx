@@ -1,56 +1,56 @@
 import React, { useState } from 'react';
-import './App.css'; // Import your external CSS file
+import './App.css';
 
 const App = () => {
   const [input, setInput] = useState('');
-  const [output, setOutput] = useState(0);
+  const [result, setResult] = useState('');
 
   const handleButtonClick = (value) => {
-    if (value === '=') {
-      try {
-        setOutput(eval(input).toString());
-      } catch (error) {
-        setOutput('Error');
-      }
-    } else if (value === 'C') {
-      setInput('');
-      setOutput(0);
-    } else {
-      setInput((prevInput) => prevInput + value);
+    setInput((prevInput) => prevInput + value);
+  };
+
+  const handleClear = () => {
+    setInput('');
+    setResult('');
+  };
+
+  const handleCalculate = () => {
+    try {
+      const calculatedResult = eval(input).toString();
+      setResult(calculatedResult);
+    } catch (error) {
+      setResult('Error');
     }
   };
 
-  const buttons = [
-    '7', '8', '9', '/',
-    '4', '5', '6', '*',
-    '1', '2', '3', '-',
-    '0', '.','C', '+',
-     '=',
-  ];
-
   return (
     <div className="calculator">
-      <input
-        type="text"
-        className="input-field"
-        value={input}
-        readOnly
-      />
-      <div className="output-section">
-        <div className="output">
-          {output}
-        </div>
+      <h1>React Calculator</h1>
+      <input type="text" value={input} readOnly />
+      <p className="result">{result}</p>
+      <div className="button-row">
+        <button onClick={() => handleButtonClick('7')}>7</button>
+        <button onClick={() => handleButtonClick('8')}>8</button>
+        <button onClick={() => handleButtonClick('9')}>9</button>
+        <button onClick={() => handleButtonClick('+')}>+</button>
       </div>
-      <div className="buttons">
-        {buttons.map((button, index) => (
-          <button
-            key={index}
-            className={`button ${button === '=' ? 'span-4' : 'span-1'}`}
-            onClick={() => handleButtonClick(button)}
-          >
-            {button}
-          </button>
-        ))}
+      <div className="button-row">
+        <button onClick={() => handleButtonClick('4')}>4</button>
+        <button onClick={() => handleButtonClick('5')}>5</button>
+        <button onClick={() => handleButtonClick('6')}>6</button>
+        <button onClick={() => handleButtonClick('-')}>-</button>
+      </div>
+      <div className="button-row">
+        <button onClick={() => handleButtonClick('1')}>1</button>
+        <button onClick={() => handleButtonClick('2')}>2</button>
+        <button onClick={() => handleButtonClick('3')}>3</button>
+        <button onClick={() => handleButtonClick('*')}>*</button>
+      </div>
+      <div className="button-row">
+        <button onClick={handleClear}>C</button>
+        <button onClick={() => handleButtonClick('0')}>0</button>
+        <button onClick={handleCalculate}>=</button>
+        <button onClick={() => handleButtonClick('/')}>/</button>
       </div>
     </div>
   );
